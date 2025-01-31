@@ -1,0 +1,30 @@
+{
+  "name": "aftn",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "npx tsc && electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vACCHUN/AFTN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vACCHUN/AFTN/issues"
+  },
+  "homepage": "https://github.com/vACCHUN/AFTN#readme",
+  "description": "",
+  "dependencies": {
+    "electron": "^34.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.12.0",
+    "electron-builder": "^25.1.8",
+    "electron-packager": "^17.1.2",
+    "typescript": "^5.7.3"
+  }
+}
