@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #474747;
+  --color-bg-overlay: #ababab;
+}
+
+
+body {
+  background-color: var(--color-bg);
+  font-family: "Arial";
+}
