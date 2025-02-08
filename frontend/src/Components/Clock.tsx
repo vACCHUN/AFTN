@@ -15,5 +15,5 @@ export default function Clock() {
     return () => {};
   }, []);
 
-  return <div className="font-bold text-2xl text-[#ffff00]">{datetime}</div>;
+  return <div className="font-bold text-2xl text-[#ffff4d]">{datetime}</div>;
 }
