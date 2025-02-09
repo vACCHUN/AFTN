@@ -2,6 +2,7 @@ import "./App.css";
 import Clock from "./Components/Clock";
 import Navbar from "./Components/Navbar";
 import AFTNTable from "./Components/AFTNTable";
+import Footer from "./Components/Footer";
 function App() {
   return (
     <>
@@ -21,6 +22,7 @@ function App() {
         <div className="bg-[#ababab]">
           <AFTNTable></AFTNTable>
         </div>
+        <Footer></Footer>
       </div>
     </>
   );

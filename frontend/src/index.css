@@ -10,3 +10,7 @@ body {
   background-color: var(--color-bg);
   font-family: "Arial";
 }
+
+input[type="checkbox"] {
+  accent-color: white;
+  }
