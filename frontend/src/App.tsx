@@ -1,8 +1,11 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router";
 import Clock from "./Components/Clock";
 import Navbar from "./Components/Navbar";
-import AFTNTable from "./Components/AFTNTable";
-import Footer from "./Components/Footer";
+
+import ResidoPage from "./pages/ResidoPage";
+import TaviratPage from "./pages/TaviratPage";
+
 function App() {
   return (
     <>
@@ -18,11 +21,18 @@ function App() {
       </div>
 
       <div className="m-1">
-        <Navbar></Navbar>
-        <div className="bg-[#ababab]">
-          <AFTNTable></AFTNTable>
-        </div>
-        <Footer></Footer>
+        <BrowserRouter>
+          <Navbar></Navbar>
+
+          <Routes>
+            <Route path="/tavirat" element={<TaviratPage/>} />
+            <Route path="/" element={<ResidoPage />} />
+            <Route path="/fpl-resido" element={<>FPL résidő</>} />
+            <Route path="/notam" element={<>NOTAM</>} />
+            <Route path="/jelzes-nyomtatas" element={<>J-NY</>} />
+
+          </Routes>
+        </BrowserRouter>
       </div>
     </>
   );
