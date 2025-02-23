@@ -7,20 +7,20 @@ function Navbar() {
 
   return (
     <div className="grid grid-cols-5 items-end">
-      <NavLink to="/tavirat" className={"bg-[#ababab] h-[40px] bold flex justify-center items-center font-bold w-full " + (currPath == "/tavirat" ? "rounded-tl-lg rounded-tr-lg h-[45px]" : "")}>
-        <div className={currPath == "/tavirat" ? "border w-full text-center m-1 bg-[#cfcfcf] py-1" : ""}>Távirat</div>
+      <NavLink to="/tavirat" className={"bg-[#ececec] h-[40px] text-lime-700 bold flex justify-center items-center font-bold " + (currPath == "/tavirat" ? "bg-[#f5f5f5] rounded-tl-xs rounded-tr-xs h-[44px]" : "shadow mr-1") + (currPath == "/resido" ? "mr-[0px]" : "")}>
+        Távirat
       </NavLink>
-      <NavLink to="/" className={"bg-[#ababab] h-[40px] bold flex justify-center items-center font-bold w-full " + (currPath == "/" ? "bg-[#cfcfcf] rounded-tl-lg rounded-tr-lg h-[45px]" : "")}>
-        <div className={currPath == "/" ? "border w-full text-center m-1 py-1" : ""}>Résidő</div>
+      <NavLink to="/" className={"bg-[#ececec] h-[40px] text-lime-700 bold flex justify-center items-center font-bold " + (currPath == "/" ? "bg-[#f5f5f5] rounded-tl-xs rounded-tr-xs h-[44px]" : "shadow mr-1 ") + (currPath == "/fpl-resido" ? "mr-[0px]" : "")}>
+        Résidő
       </NavLink>
-      <NavLink to="/fpl-resido" className={"bg-[#ababab] h-[40px] bold flex justify-center items-center font-bold w-full " + (currPath == "/fpl-resido" ? "rounded-tl-lg rounded-tr-lg h-[45px]" : "")}>
-        <div className={currPath == "/fpl-resido" ? "border w-full text-center m-1 bg-[#cfcfcf] py-1" : ""}>FPL résidő</div>
+      <NavLink to="/fpl-resido" className={"bg-[#ececec] h-[40px] text-lime-700 bold flex justify-center items-center font-bold " + (currPath == "/fpl-resido" ? "bg-[#f5f5f5] rounded-tl-xs rounded-tr-xs h-[44px]" : "shadow mr-1 ") + (currPath == "/notam" ? "mr-[0px]" : "")}>
+        FPL+résidő
       </NavLink>
-      <NavLink to="/notam" className={"bg-[#ababab] h-[40px] bold flex justify-center items-center font-bold w-full " + (currPath == "/notam" ? "rounded-tl-lg rounded-tr-lg h-[45px]" : "")}>
-        <div className={currPath == "/notam" ? "border w-full text-center m-1 bg-[#cfcfcf] py-1" : ""}>NOTAM</div>
+      <NavLink to="/notam" className={"bg-[#ececec] h-[40px] text-lime-700 bold flex justify-center items-center font-bold " + (currPath == "/notam" ? "bg-[#f5f5f5] rounded-tl-xs rounded-tr-xs h-[44px]" : "shadow mr-1 ") + (currPath == "/jelzes-nyomtatas" ? "mr-[0px]" : "")}>
+        Notam
       </NavLink>
-      <NavLink to="/jelzes-nyomtatas" className={"bg-[#ababab] h-[40px] bold flex justify-center items-center font-bold w-full " + (currPath == "/jelzes-nyomtatas" ? "rounded-tl-lg rounded-tr-lg h-[45px]" : "")}>
-        <div className={currPath == "/jelzes-nyomtatas" ? "border w-full text-center m-1 bg-[#cfcfcf] py-1" : ""}>Jelzés/Nyomtatás</div>
+      <NavLink to="/jelzes-nyomtatas" className={"bg-[#ececec] h-[40px] text-lime-700 bold flex justify-center items-center font-bold " + (currPath == "/jelzes-nyomtatas" ? "bg-[#f5f5f5] rounded-tl-xs rounded-tr-xs h-[44px]" : "shadow") + (currPath == "/" ? "mr-[0px]" : "")}>
+        Jelzés / Nyomtatás
       </NavLink>
     </div>
   );
