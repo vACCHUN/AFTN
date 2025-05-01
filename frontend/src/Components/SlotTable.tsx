@@ -1,5 +1,5 @@
 
-function AFTNTable() {
+function SlotTable() {
   return (
     <div className="bg-white pt-4 px-3 h-[768px] overflow-y-scroll ">
       <table className="w-full border-1 font-bold">
@@ -147,4 +147,4 @@ function AFTNTable() {
   )
 }
 
-export default AFTNTable
+export default SlotTable
