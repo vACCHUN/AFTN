@@ -1,5 +1,33 @@
+import { useEffect, useState } from "react";
+import api from "../config/api";
+import SlotTableEntry from "./SlotTableEntry";
+import { IFPS } from "../types/ifps";
 
 function SlotTable() {
+  const [lhbpData, setLhbpData] = useState<IFPS[]>([]);
+
+  console.log(lhbpData);
+  useEffect(() => {
+    const getLhbpData = async () => {
+      try {
+        const res = await api.get("/ifps/depAirport?airport=EPKK");
+        if (res.status !== 200) return console.log("Unknown error getting cdm data.");
+        const data: IFPS[] = res.data;
+
+        setLhbpData(
+          data.map((data) => {
+            const seen = data.seen ? data.seen : false;
+            return { ...data, seen: seen };
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getLhbpData();
+  }, []);
+
   return (
     <div className="bg-white pt-4 px-3 h-[768px] overflow-y-scroll ">
       <table className="w-full border-1 font-bold">
@@ -18,7 +46,22 @@ function SlotTable() {
           </tr>
         </thead>
         <tbody>
-        <tr className="border-b-1 h-[28px]">
+          {lhbpData.map((data) => (
+            <SlotTableEntry callsign={data.callsign} atfcmStatus={data.atfcmStatus} cdmStatus={data.cdmSts} ctot={data.ctot} key={data.callsign} />
+          ))}
+          <tr className="border-b-1 h-[28px]">
+            <td className="text-left ps-3 bg-[#ffff4d]"></td>
+            <td className="text-center"></td>
+            <td className="text-center bg-[#ffff4d]"></td>
+            <td className="text-center bg-[#ffff4d]"></td>
+            <td className="text-center bg-[#ffff4d]"></td>
+            <td className="text-center border-r-1 border-l-1 border-black text-gray-400"></td>
+            <td className="text-center text-gray-600 bg-[#ababab]"></td>
+            <td className="text-center bg-[#ababab]"></td>
+            <td className="text-center bg-[#ababab] text-[#ff0000]"></td>
+            <td className="text-center bg-[#ababab] text-[#247d14]"></td>
+          </tr>
+          <tr className="border-b-1 h-[28px]">
             <td className="text-left ps-3 bg-[#ffff4d]">RYR3PJ</td>
             <td className="text-center">SAM</td>
             <td className="text-center bg-[#ffff4d]">17:05</td>
@@ -144,7 +187,7 @@ function SlotTable() {
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
-export default SlotTable
+export default SlotTable;
