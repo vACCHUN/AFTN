@@ -16,9 +16,11 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
   const isRea = cdmStatus === "REA";
   const isSuspended = cdmStatus === "SUSP";
 
-  ctot = "19:10";
+  //ctot = "19:10";
 
-  const STU = subtractMinutes(ctot, TAXI_TIME);
+  if (ctot.trim() === "") ctot = "--";
+
+  const STU = ctot === "--" ? ctot : subtractMinutes(ctot, TAXI_TIME);
 
   const takeoffTime = subtractMinutes(ctot, 5);
 
@@ -34,7 +36,7 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
 
   const sendReadyMessage = async () => {
     if (isSuspended || isRea) return;
-    
+
     console.log("sending ready for", callsign);
   };
 
@@ -47,7 +49,7 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
   };
 
   let reaColumnText = isRea ? "Kiadva" : "Kiadható";
-  if (isSuspended) reaColumnText = "Nem";
+  if (isSuspended || atfcmStatus === "DES") reaColumnText = "Nem";
 
   return (
     <tr className="border-b-1 h-[28px]">
@@ -55,8 +57,8 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
       <td className={`text-center text-lg ${needsConfirmation ? "bg-orange-600 text-lime-500" : ""}`}>{atfcmStatus}</td>
       <td className="text-center text-lg">{ctot}</td>
       <td className="text-center text-lg">{STU}</td>
-      <td className="text-center text-lg">{Math.floor(untilTakeoffMinutes)} perc</td>
-      <td onClick={sendReadyMessage} className={`cursor-pointer text-lg text-center border-r-1 border-l-1 text-gray-600 border-black ${!isSuspended && "bg-[#ababab]"} ${!isRea && !isSuspended ? "text-fuchsia-800!" : ""}`}>
+      <td className="text-center text-lg">{ctot == "--" ? ctot : `${Math.floor(untilTakeoffMinutes)} perc`}</td>
+      <td onClick={sendReadyMessage} className={`cursor-pointer text-lg text-center border-r-1 border-l-1 text-gray-600 border-black ${reaColumnText !== "Nem" && "bg-[#ababab]"} ${reaColumnText === "Kiadható" ? "text-fuchsia-800!" : ""}`}>
         {reaColumnText}
       </td>
       <td onClick={confirmEntry} className={`cursor-pointer text-lg text-center text-gray-600 bg-[#ababab] ${needsConfirmation ? "text-[#ff0000]!" : ""}`}>

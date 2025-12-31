@@ -12,7 +12,7 @@ function SlotTable() {
       try {
         const res = await api.get("/ifps/depAirport?airport=LHBP");
         if (res.status !== 200) return console.log("Unknown error getting cdm data.");
-        const data: IFPS[] = res.data/*.filter((data: IFPS) => data.ctot.trim() !== "" && data.atot.trim() === "")*/;
+        const data: IFPS[] = res.data.filter((data: IFPS) => (data.ctot.trim() !== "" || data.atfcmStatus == "DES" || data.cdmSts == "SUSP") && data.atot.trim() === "");
 
         setLhbpData((prev) =>
           data.map((data) => {
