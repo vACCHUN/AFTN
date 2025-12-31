@@ -36,16 +36,12 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
 
   const sendReadyMessage = async () => {
     if (isSuspended || isRea) return;
-
-    console.log("sending ready for", callsign);
   };
 
-  const [needsConfirmation, setNeedsConfirmation] = useState(!seen);
+
 
   const confirmEntry = () => {
-    setNeedsConfirmation(false);
-
-    if (!seen) setSeen(callsign);
+    setSeen(callsign);
   };
 
   let reaColumnText = isRea ? "Kiadva" : "Kiadható";
@@ -54,15 +50,15 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
   return (
     <tr className="border-b-1 h-[28px]">
       <td className="text-left ps-3 text-lg">{callsign}</td>
-      <td className={`text-center text-lg ${needsConfirmation ? "bg-orange-600 text-lime-500" : ""}`}>{atfcmStatus}</td>
+      <td className={`text-center text-lg ${!seen ? "bg-orange-600 text-lime-500" : ""}`}>{atfcmStatus}</td>
       <td className="text-center text-lg">{ctot}</td>
       <td className="text-center text-lg">{STU}</td>
       <td className="text-center text-lg">{ctot == "--" ? ctot : `${Math.floor(untilTakeoffMinutes)} perc`}</td>
       <td onClick={sendReadyMessage} className={`cursor-pointer text-lg text-center border-r-1 border-l-1 text-gray-600 border-black ${reaColumnText !== "Nem" && "bg-[#ababab]"} ${reaColumnText === "Kiadható" ? "text-fuchsia-800!" : ""}`}>
         {reaColumnText}
       </td>
-      <td onClick={confirmEntry} className={`cursor-pointer text-lg text-center text-gray-600 bg-[#ababab] ${needsConfirmation ? "text-[#ff0000]!" : ""}`}>
-        {needsConfirmation ? "Nyugtáz" : "Ok"}
+      <td onClick={confirmEntry} className={`cursor-pointer text-lg text-center text-gray-600 bg-[#ababab] ${!seen ? "text-[#ff0000]!" : ""}`}>
+        {!seen ? "Nyugtáz" : "Ok"}
       </td>
       <td className="text-center text-lg bg-[#ababab]">DLA</td>
       <td className="text-center text-lg bg-[#ababab] text-[#ff0000]">Töröl</td>

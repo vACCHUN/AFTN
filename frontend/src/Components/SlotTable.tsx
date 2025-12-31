@@ -21,11 +21,11 @@ function SlotTable() {
 
             let seen = false;
 
-            if ((prevData.length === 1 && prevData[0].atfcmStatus != data.atfcmStatus) || prevData.length === 0) {
-              seen = false;
-            } else {
-              if (prevData[0].seen !== undefined) seen = prevData[0].seen;
+            if (prevData.length > 0 && prevData[0].atfcmStatus === data.atfcmStatus) {
+              seen = prevData[0].seen !== undefined ? prevData[0].seen : false;
             }
+
+            console.log(prevData.length, prevData[0]?.atfcmStatus, data.atfcmStatus);
 
             console.log("prevData", prevData[0], "newData", data);
 
@@ -41,7 +41,7 @@ function SlotTable() {
     const interval = setInterval(() => {
       getLhbpData();
       console.log("Refreshing data.");
-    }, 60000);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
