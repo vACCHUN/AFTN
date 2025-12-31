@@ -5,7 +5,6 @@
   --color-bg-overlay: #ababab;
 }
 
-
 body {
   background-image: url("./img/black-white-dots-alternate-white-marble-background_38013-198.png");
   font-family: "Arial";
@@ -13,4 +12,4 @@ body {
 
 input[type="checkbox"] {
   accent-color: white;
-  }
+}

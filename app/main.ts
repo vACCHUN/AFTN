@@ -6,13 +6,14 @@ app.whenReady().then(() => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
-    width: Math.floor(width * 0.66),
+    width: Math.floor(width * 0.55),
     height: Math.floor(height * 0.95),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       preload: __dirname + "/preload.js",
     },
+    resizable: false
   });
 
   mainWindow.loadURL("http://localhost:5173");

@@ -6,14 +6,17 @@ type SlotTableEntryProps = {
   atfcmStatus: string;
   ctot: string;
   cdmStatus: string;
+  seen: boolean;
+  setSeen: (callsign: string) => void;
 };
 
 const TAXI_TIME = import.meta.env.VITE_TAXI_TIME;
 
-function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus }: SlotTableEntryProps) {
+function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen }: SlotTableEntryProps) {
   const isRea = cdmStatus === "REA";
+  const isSuspended = cdmStatus === "SUSP";
 
-  ctot = "17:50";
+  ctot = "19:10";
 
   const STU = subtractMinutes(ctot, TAXI_TIME);
 
@@ -30,23 +33,38 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus }: SlotTableEnt
   }, [takeoffTime]);
 
   const sendReadyMessage = async () => {
+    if (isSuspended || isRea) return;
+    
     console.log("sending ready for", callsign);
   };
 
+  const [needsConfirmation, setNeedsConfirmation] = useState(!seen);
+
+  const confirmEntry = () => {
+    setNeedsConfirmation(false);
+
+    if (!seen) setSeen(callsign);
+  };
+
+  let reaColumnText = isRea ? "Kiadva" : "Kiadható";
+  if (isSuspended) reaColumnText = "Nem";
+
   return (
     <tr className="border-b-1 h-[28px]">
-      <td className="text-left ps-3 ">{callsign}</td>
-      <td className="text-center">{atfcmStatus}</td>
-      <td className="text-center">{ctot}</td>
-      <td className="text-center">{STU}</td>
-      <td className="text-center">{Math.floor(untilTakeoffMinutes)} perc</td>
-      <td onClick={sendReadyMessage} className="text-center border-r-1 border-l-1 border-black text-gray-400">
-        {isRea ? "Kiadva" : "Kiadható"}
+      <td className="text-left ps-3 text-lg">{callsign}</td>
+      <td className={`text-center text-lg ${needsConfirmation ? "bg-orange-600 text-lime-500" : ""}`}>{atfcmStatus}</td>
+      <td className="text-center text-lg">{ctot}</td>
+      <td className="text-center text-lg">{STU}</td>
+      <td className="text-center text-lg">{Math.floor(untilTakeoffMinutes)} perc</td>
+      <td onClick={sendReadyMessage} className={`cursor-pointer text-lg text-center border-r-1 border-l-1 text-gray-600 border-black ${!isSuspended && "bg-[#ababab]"} ${!isRea && !isSuspended ? "text-fuchsia-800!" : ""}`}>
+        {reaColumnText}
       </td>
-      <td className="text-center text-gray-600 bg-[#ababab]">OK</td>
-      <td className="text-center bg-[#ababab]">DLA</td>
-      <td className="text-center bg-[#ababab] text-[#ff0000]">Töröl</td>
-      <td className="text-center bg-[#ababab] text-[#247d14]">Mutasd</td>
+      <td onClick={confirmEntry} className={`cursor-pointer text-lg text-center text-gray-600 bg-[#ababab] ${needsConfirmation ? "text-[#ff0000]!" : ""}`}>
+        {needsConfirmation ? "Nyugtáz" : "Ok"}
+      </td>
+      <td className="text-center text-lg bg-[#ababab]">DLA</td>
+      <td className="text-center text-lg bg-[#ababab] text-[#ff0000]">Töröl</td>
+      <td className="text-center text-lg bg-[#ababab] text-[#247d14]">Mutasd</td>
     </tr>
   );
 }

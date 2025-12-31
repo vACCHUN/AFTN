@@ -10,13 +10,25 @@ function SlotTable() {
   useEffect(() => {
     const getLhbpData = async () => {
       try {
-        const res = await api.get("/ifps/depAirport?airport=EPKK");
+        const res = await api.get("/ifps/depAirport?airport=LHBP");
         if (res.status !== 200) return console.log("Unknown error getting cdm data.");
-        const data: IFPS[] = res.data;
+        const data: IFPS[] = res.data/*.filter((data: IFPS) => data.ctot.trim() !== "" && data.atot.trim() === "")*/;
 
-        setLhbpData(
+        setLhbpData((prev) =>
           data.map((data) => {
-            const seen = data.seen ? data.seen : false;
+            const callsign = data.callsign;
+            const prevData = prev.filter((d) => d.callsign === callsign);
+
+            let seen = false;
+
+            if ((prevData.length === 1 && prevData[0].atfcmStatus != data.atfcmStatus) || prevData.length === 0) {
+              seen = false;
+            } else {
+              if (prevData[0].seen !== undefined) seen = prevData[0].seen;
+            }
+
+            console.log("prevData", prevData[0], "newData", data);
+
             return { ...data, seen: seen };
           })
         );
@@ -26,30 +38,40 @@ function SlotTable() {
     };
 
     getLhbpData();
+    const interval = setInterval(() => {
+      getLhbpData();
+      console.log("Refreshing data.");
+    }, 60000);
+
+    return () => clearInterval(interval);
   }, []);
+
+  const setDataSeen = (callsign: string) => {
+    setLhbpData((prev) => prev.map((data) => (data.callsign == callsign ? { ...data, seen: true } : data)));
+  };
 
   return (
     <div className="bg-white pt-4 px-3 h-[768px] overflow-y-scroll ">
       <table className="w-full border-1 font-bold">
         <thead>
           <tr>
-            <th className="px-2 border-b-1">Járat</th>
-            <th className="px-2 border-b-1"></th>
-            <th className="px-2 border-b-1">Résidő</th>
-            <th className="px-2 border-b-1">STU</th>
-            <th className="px-2 border-b-1">Felszállásig</th>
-            <th className="px-2 border-b-1">REA</th>
-            <th className="px-2 border-b-1 text-[10px]">Nyugta mind</th>
-            <th className="px-2 border-b-1"></th>
-            <th className="px-2 border-b-1"></th>
-            <th className="px-2 border-b-1">Távirat</th>
+            <th className="px-2 border-b-1 text-lg">Járat</th>
+            <th className="px-2 border-b-1 w-min text-lg"></th>
+            <th className="px-2 border-b-1 text-lg">Résidő</th>
+            <th className="px-2 border-b-1 text-lg">STU</th>
+            <th className="px-2 border-b-1 text-lg">Felszállásig</th>
+            <th className="px-2 border-b-1 text-lg">REA</th>
+            <th className="px-2 border-b-1 text-lg text-[10px]">Nyugta mind</th>
+            <th className="px-2 border-b-1 text-lg"></th>
+            <th className="px-2 border-b-1 text-lg"></th>
+            <th className="px-2 border-b-1 text-lg">Távirat</th>
           </tr>
         </thead>
         <tbody>
           {lhbpData.map((data) => (
-            <SlotTableEntry callsign={data.callsign} atfcmStatus={data.atfcmStatus} cdmStatus={data.cdmSts} ctot={data.ctot} key={data.callsign} />
+            <SlotTableEntry setSeen={setDataSeen} seen={data.seen || false} callsign={data.callsign} atfcmStatus={data.atfcmStatus} cdmStatus={data.cdmSts} ctot={data.ctot} key={data.callsign} />
           ))}
-          <tr className="border-b-1 h-[28px]">
+          {/*<tr className="border-b-1 h-[28px]">
             <td className="text-left ps-3 bg-[#ffff4d]"></td>
             <td className="text-center"></td>
             <td className="text-center bg-[#ffff4d]"></td>
@@ -144,46 +166,11 @@ function SlotTable() {
             <td className="text-center bg-[#ababab]">DLA</td>
             <td className="text-center bg-[#ababab] text-[#ff0000]">Töröl</td>
             <td className="text-center bg-[#ababab] text-[#247d14]">Mutasd</td>
-          </tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
-          <tr className="border-b-1 h-[28px]"></tr>
+          </tr>*/}
+          {/* Empty rows */}
+          {Array.from({ length: 50 }).map((_, index) => (
+            <tr key={index} className="border-b h-[28px]"></tr>
+          ))}
         </tbody>
       </table>
     </div>

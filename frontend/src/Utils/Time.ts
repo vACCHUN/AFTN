@@ -20,13 +20,18 @@ export function getTimeDifferenceUtc(targetTime: string): number {
 
   const now = new Date();
 
-  let targetDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hours, minutes, 0, 0));
+  const nowMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
 
-  if (targetDate < now) {
-    targetDate = new Date(targetDate.getTime() + 24 * 60 * 60 * 1000);
+ 
+  const targetMinutes = hours * 60 + minutes;
+
+  let diff = targetMinutes - nowMinutes;
+
+  if (diff > 12 * 60) {
+    diff -= 24 * 60; 
+  } else if (diff < -12 * 60) {
+    diff += 24 * 60; 
   }
 
-  const diffMinutes = (targetDate.getTime() - now.getTime()) / 1000 / 60;
-
-  return -diffMinutes;
+  return -diff;
 }

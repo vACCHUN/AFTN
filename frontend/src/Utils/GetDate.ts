@@ -1,15 +1,9 @@
 export function getDateTime(): string {
-  const options: Intl.DateTimeFormatOptions = {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-  };
-  
   const date: Date = new Date();
-  const formattedDate: string = new Intl.DateTimeFormat('hu-HU', options).format(date);
-  
-  return formattedDate;
+
+  const months = ["jan", "feb", "márc", "ápr", "máj", "jún", "júl", "aug", "szept", "okt", "nov", "dec"]
+
+  const formatted = `${months[date.getUTCMonth()]}. ${date.getUTCDate()}. ${date.getUTCHours().toString().padStart(2, "0")}:${date.getUTCMinutes().toString().padStart(2, "0")}:${date.getUTCSeconds().toString().padStart(2, "0")}`;
+
+  return formatted;
 }
