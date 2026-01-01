@@ -10,7 +10,7 @@ function SlotTable() {
   useEffect(() => {
     const getLhbpData = async () => {
       try {
-        const res = await api.get("/ifps/depAirport?airport=EDDB");
+        const res = await api.get(`/ifps/depAirport?airport=${import.meta.env.VITE_ICAO}`);
         if (res.status !== 200) return console.log("Unknown error getting cdm data.");
         const data: IFPS[] = res.data.filter((data: IFPS) => (data.ctot.trim() !== "" || data.atfcmStatus == "DES" || data.cdmSts == "SUSP") && data.atot.trim() === "");
 
