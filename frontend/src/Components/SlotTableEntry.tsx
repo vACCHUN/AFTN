@@ -20,6 +20,8 @@ function SlotTableEntry({ callsign, atfcmStatus, ctot, cdmStatus, seen, setSeen 
 
   if (ctot.trim() === "") ctot = "--";
 
+  if (ctot !== "--") ctot = `${ctot[0]}${ctot[1]}:${ctot[2]}${ctot[3]}`;
+
   const STU = ctot === "--" ? ctot : subtractMinutes(ctot, TAXI_TIME);
 
   const takeoffTime = subtractMinutes(ctot, 5);

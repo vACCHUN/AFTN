@@ -4,7 +4,6 @@ export function subtractMinutes(time: string, minutesToSubtract: number): string
   let minutes = parseInt(minutesStr, 10);
 
   let totalMinutes = hours * 60 + minutes - minutesToSubtract;
-
   totalMinutes = (totalMinutes + 24 * 60) % (24 * 60);
 
   const newHours = Math.floor(totalMinutes / 60);
@@ -33,5 +32,5 @@ export function getTimeDifferenceUtc(targetTime: string): number {
     diff += 24 * 60; 
   }
 
-  return -diff;
+  return diff;
 }
