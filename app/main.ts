@@ -5,7 +5,8 @@ let mainWindow: BrowserWindow | null;
 
 const WINDOW_SIZE = 0.7;
 const ZOOM_STEP = 0.1;
-const PRODUCTION_URL = "http://127.0.0.1:5173/aftn";
+const PRODUCTION_URL = "https://cc.vacchun.hu/aftn";
+const DEV_URL = "http://127.0.0.1:5173/aftn";
 
 app.whenReady().then(async () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -21,7 +22,7 @@ app.whenReady().then(async () => {
       preload: path.join(__dirname, "preload.js"),
     },
   });
-  mainWindow.loadURL(isDev ? "http://127.0.0.1:5173/aftn" : PRODUCTION_URL);
+  mainWindow.loadURL(isDev ? DEV_URL : PRODUCTION_URL);
 
   mainWindow.webContents.openDevTools();
 

@@ -5,6 +5,7 @@ dotenv.config();
 
 module.exports = {
   packagerConfig: {
+    icon: "images/icon",
     win32metadata: {
       CompanyName: "vACCHUN",
       FileDescription: "AFTN",
