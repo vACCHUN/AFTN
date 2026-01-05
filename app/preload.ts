@@ -5,3 +5,7 @@ contextBridge.exposeInMainWorld("electron", {
     ipcRenderer.send("close-app");
   },
 });
+
+contextBridge.exposeInMainWorld("env", {
+  isElectron: true,
+});

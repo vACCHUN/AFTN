@@ -19,6 +19,7 @@
   "homepage": "https://github.com/vACCHUN/AFTN#readme",
   "description": "",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "electron": "^34.0.2"
   },
   "devDependencies": {

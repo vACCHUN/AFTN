@@ -1,8 +1,8 @@
 import { app, BrowserWindow, ipcMain, Menu, screen, nativeTheme } from "electron";
-
+import "dotenv/config";
 let mainWindow: BrowserWindow | null;
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
   mainWindow = new BrowserWindow({
@@ -13,10 +13,12 @@ app.whenReady().then(() => {
       contextIsolation: true,
       preload: __dirname + "/preload.js",
     },
-    resizable: false
+    resizable: false,
   });
 
-  mainWindow.loadURL("http://localhost:5173");
+  await mainWindow.webContents.session.clearCache();
+
+  mainWindow.loadURL(process.env.URL as string);
 
   mainWindow.webContents.openDevTools();
 
