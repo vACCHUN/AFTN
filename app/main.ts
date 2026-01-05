@@ -1,11 +1,11 @@
-import { app, BrowserWindow, ipcMain, Menu, screen, nativeTheme } from "electron";
+import { app, BrowserWindow, ipcMain, Menu, screen, nativeTheme, shell } from "electron";
 import "dotenv/config";
 import path from "path";
 let mainWindow: BrowserWindow | null;
 
 const WINDOW_SIZE = 0.7;
 const ZOOM_STEP = 0.1;
-const PRODUCTION_URL = "http://172.25.50.93:5173/aftn";
+const PRODUCTION_URL = "http://127.0.0.1:5173/aftn";
 
 app.whenReady().then(async () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -92,6 +92,12 @@ app.whenReady().then(async () => {
   });
 });
 
+app.setAsDefaultProtocolClient("aftn");
+
+if (!app.isPackaged) {
+  app.setAsDefaultProtocolClient("aftn", process.execPath, [path.resolve(process.argv[1])]);
+}
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
@@ -101,3 +107,31 @@ app.on("window-all-closed", () => {
 ipcMain.on("close-app", () => {
   app.quit();
 });
+
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  console.log("Deep link:", url);
+
+  if (mainWindow) {
+    mainWindow.webContents.send("deep-link", url);
+  }
+});
+
+app.on("second-instance", (event, argv) => {
+  const deepLink = argv.find((arg) => arg.startsWith("aftn://"));
+  if (deepLink && mainWindow) {
+    mainWindow.webContents.send("deep-link", deepLink);
+  }
+});
+
+ipcMain.on("open-external", (event, url) => {
+  console.log("Opened: ", url);
+  shell.openExternal(url).catch((err) => {
+    console.error("Failed to open URL:", err);
+  });
+});
+
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) {
+  app.quit();
+}
