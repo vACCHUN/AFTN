@@ -3,6 +3,7 @@ import "dotenv/config";
 let mainWindow: BrowserWindow | null;
 
 const WINDOW_SIZE = 0.7;
+const ZOOM_STEP = 0.1;
 
 app.whenReady().then(async () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -37,7 +38,31 @@ app.whenReady().then(async () => {
     },
     {
       label: "Beállítás",
-      submenu: [],
+      submenu: [
+        {
+          label: "Nagyítás",
+          click: () => {
+            if (!mainWindow) return;
+            const zoom = mainWindow.webContents.getZoomFactor();
+            mainWindow.webContents.setZoomFactor(zoom + ZOOM_STEP);
+          },
+        },
+        {
+          label: "Kicsinyítés",
+          click: () => {
+            if (!mainWindow) return;
+            const zoom = mainWindow.webContents.getZoomFactor();
+            mainWindow.webContents.setZoomFactor(Math.max(0.25, zoom - ZOOM_STEP));
+          },
+        },
+        {
+          label: "Alapértelmezett",
+          click: () => {
+            if (!mainWindow) return;
+            mainWindow.webContents.setZoomFactor(1);
+          },
+        },
+      ],
     },
     {
       label: "Archívum",
