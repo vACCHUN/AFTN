@@ -23,13 +23,9 @@ app.whenReady().then(async () => {
   });
   mainWindow.loadURL(isDev ? "http://127.0.0.1:5173/aftn" : PRODUCTION_URL);
 
-  mainWindow.webContents.openDevTools({ mode: "detach" });
+  mainWindow.webContents.openDevTools();
 
   mainWindow.setAspectRatio(4 / 3);
-
-  mainWindow.webContents.on("did-fail-load", (_, errorCode, errorDescription, validatedURL) => {
-    console.error("LOAD FAIL:", errorCode, errorDescription, validatedURL);
-  });
 
   await mainWindow.webContents.session.clearCache();
 
