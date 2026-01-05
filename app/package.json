@@ -3,29 +3,44 @@
   "version": "1.0.0",
   "main": "dist/main.js",
   "scripts": {
-    "start": "npx tsc && electron ."
+    "ts:build": "npx tsc",
+    "start": "npm run ts:build && electron-forge start",
+    "package": "npm run ts:build && electron-forge package",
+    "make": "npm run ts:build && electron-forge make",
+    "clean": "rimraf out",
+    "make:clean": "npm run clean && npm run make"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vACCHUN/AFTN.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Csörgő Csaba",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/vACCHUN/AFTN/issues"
   },
   "homepage": "https://github.com/vACCHUN/AFTN#readme",
-  "description": "",
+  "description": "AFTN terminal for vACCHUN",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "electron": "^34.0.2"
+    "electron-squirrel-startup": "^1.0.1"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^7.10.2",
+    "@electron-forge/maker-deb": "^7.10.2",
+    "@electron-forge/maker-msix": "^7.10.2",
+    "@electron-forge/maker-rpm": "^7.10.2",
+    "@electron-forge/maker-squirrel": "^7.10.2",
+    "@electron-forge/maker-zip": "^7.10.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.10.2",
+    "@electron-forge/plugin-fuses": "^7.10.2",
+    "@electron/fuses": "^1.8.0",
     "@types/node": "^22.12.0",
-    "electron-builder": "^25.1.8",
+    "electron": "^34.5.8",
     "electron-packager": "^17.1.2",
+    "rimraf": "^6.1.2",
     "typescript": "^5.7.3"
   }
 }

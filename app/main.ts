@@ -1,12 +1,15 @@
 import { app, BrowserWindow, ipcMain, Menu, screen, nativeTheme } from "electron";
 import "dotenv/config";
+import path from "path";
 let mainWindow: BrowserWindow | null;
 
 const WINDOW_SIZE = 0.7;
 const ZOOM_STEP = 0.1;
+const PRODUCTION_URL = "http://172.25.50.93:5173/aftn";
 
 app.whenReady().then(async () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  const isDev = !app.isPackaged;
 
   mainWindow = new BrowserWindow({
     width: Math.floor(width * WINDOW_SIZE),
@@ -15,17 +18,20 @@ app.whenReady().then(async () => {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: __dirname + "/preload.js",
+      preload: path.join(__dirname, "preload.js"),
     },
   });
+  mainWindow.loadURL(isDev ? "http://127.0.0.1:5173/aftn" : PRODUCTION_URL);
+
+  mainWindow.webContents.openDevTools({ mode: "detach" });
 
   mainWindow.setAspectRatio(4 / 3);
 
+  mainWindow.webContents.on("did-fail-load", (_, errorCode, errorDescription, validatedURL) => {
+    console.error("LOAD FAIL:", errorCode, errorDescription, validatedURL);
+  });
+
   await mainWindow.webContents.session.clearCache();
-
-  mainWindow.loadURL(process.env.URL as string);
-
-  mainWindow.webContents.openDevTools();
 
   const template: Electron.MenuItemConstructorOptions[] = [
     {
