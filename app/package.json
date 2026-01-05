@@ -25,7 +25,8 @@
   "description": "AFTN terminal for vACCHUN",
   "dependencies": {
     "dotenv": "^17.2.3",
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "electron-windows-msix": "^2.0.4"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.10.2",

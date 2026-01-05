@@ -18,7 +18,7 @@ module.exports = {
   },
   rebuildConfig: {},
   makers: [
-    {
+    /*{
       name: "@electron-forge/maker-squirrel",
       config: {
         name: "aftn",
@@ -26,15 +26,22 @@ module.exports = {
         certificateFile: "./AFTN.pfx",
         certificatePassword: process.env.WIN_CERT_PASSWORD,
       },
-    },
-    /*{
+    },*/
+    {
       name: "@electron-forge/maker-msix",
       config: {
-        manifestVariables: {
-          publisher: "vACCHUN",
-        },
+        displayName: "AFTN Terminál",
+        publisher: "CN=AFTNCert",
+        identityName: "AFTNCert",
+        publisherDisplayName: "vACCHUN",
+        appDescription: "Langord AFTN Terminál for vACCHUN",
+
+        // Cert
+        certificateFile: "C:\\Users\\Csaba\\Documents\\!programs\\AFTN\\app\\AFTNCert.pfx",
+        certificatePassword: process.env.WIN_CERT_PASSWORD,
+        signWithParams: "/fd SHA256",
       },
-    },*/
+    },
   ],
   plugins: [
     {

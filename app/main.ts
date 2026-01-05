@@ -16,6 +16,7 @@ app.whenReady().then(async () => {
     width: Math.floor(width * WINDOW_SIZE),
     height: Math.floor((width * WINDOW_SIZE * 3) / 4),
     resizable: true,
+    maximizable: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
