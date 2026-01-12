@@ -25,8 +25,6 @@ app.whenReady().then(async () => {
   });
   mainWindow.loadURL(isDev ? DEV_URL : PRODUCTION_URL);
 
-  mainWindow.webContents.openDevTools();
-
   mainWindow.setAspectRatio(4 / 3);
 
   await mainWindow.webContents.session.clearCache();
@@ -64,6 +62,14 @@ app.whenReady().then(async () => {
           click: () => {
             if (!mainWindow) return;
             mainWindow.webContents.setZoomFactor(1);
+          },
+        },
+        { type: "separator" },
+        {
+          label: "Dev console",
+          click: () => {
+            if (!mainWindow) return;
+            mainWindow.webContents.openDevTools({ mode: "detach" });
           },
         },
       ],
